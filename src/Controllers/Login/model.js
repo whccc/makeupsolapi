@@ -10,9 +10,9 @@ module.exports = {
       console.log(Error)
     }
   },
-  async MDFindOne ({ strUser }) {
+  async MDFindOne ({ strUser, strPassword }) {
     try {
-      return MDLogin.findOne({ strUser })
+      return await MDLogin.findOne({ strUser, strPassword })
     } catch (Error) {
       console.log(Error)
     }

@@ -1,6 +1,6 @@
 const MDLogin = require('./model')
 const Helpers = require('../../Helpers/utils')
-
+const Jwt = require('../Jsonwebtoken/controller')
 const ValidateData = (objData) => {
   if (Helpers.ValidateData(objData.strUser)) {
     return Helpers.objResponse(false, 'Empty Field strUser is required')
@@ -12,7 +12,7 @@ const ValidateData = (objData) => {
 }
 
 module.exports = {
-  async Login (req, res) {
+  async LoginCreate (req, res) {
     // Validate data
     let objResponse = {}
     const objValidate = ValidateData(req.body)
@@ -27,6 +27,23 @@ module.exports = {
       objResponse = Helpers.objResponse(true, 'User create with success')
     } else {
       objResponse = Helpers.objResponse(false, 'User already exists')
+    }
+    res.json(objResponse)
+  },
+  async Login (req, res) {
+    let objResponse = {}
+    const objValidate = ValidateData(req.body)
+    if (!objValidate.Success) {
+      res.json(objValidate)
+      return
+    }
+    // Validate user
+    const User = await MDLogin.MDFindOne(req.body)
+    if (User == null) {
+      objResponse = Helpers.objResponse(false, 'Error contraseña o clave incorrectos.')
+    } else {
+      const objJwt = await Jwt.CreateJwt(req.body)
+      objResponse = Helpers.objResponse(true, { strMessage: 'Datos de usuario acordes', Jwt: objJwt, strUser: User.strUser })
     }
     res.json(objResponse)
   }
