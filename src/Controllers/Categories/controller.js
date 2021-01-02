@@ -27,11 +27,46 @@ module.exports = {
       if (objRespuesta == null) {
         // Create category
         Model.MDSave({ strName })
-        objRes = Helpers.objResponse(true, 'Category create with success')
+        objRes = Helpers.objResponse(true, 'Categoria creada con éxito')
       } else {
-        objRes = Helpers.objResponse(true, 'Category duplicate error')
+        objRes = Helpers.objResponse(false, 'Categoria duplicada')
       }
       res.json(objRes)
+    } catch (Error) {
+      console.log(Error)
+    }
+  },
+  // Get Categories
+  async GetCategories (req, res) {
+    try {
+      const objRes = await Model.MDFind()
+      res.json(Helpers.objResponse(true, { Categories: objRes }))
+    } catch (Error) {
+      console.log(Error)
+    }
+  },
+  // Get Categories Pagination
+  async GetCategoriesPagination (req, res) {
+    try {
+      const objRes = await Model.MDFindPagination(req.body)
+      res.json(Helpers.objResponse(true, { Categories: objRes }))
+    } catch (Error) {
+      console.log(Error)
+    }
+  },
+  // Update Categorie By Id
+  async UpdateCategorie (req, res) {
+    try {
+      await Model.MDFindIdUpdate(req.body)
+      res.json(Helpers.objResponse(true, 'Categoria actualizada con éxito.'))
+    } catch (Error) {
+      console.log(Error)
+    }
+  },
+  // Delete Category
+  async DeleteCategorie (req, res) {
+    try {
+      console.log(req.body)
     } catch (Error) {
       console.log(Error)
     }
