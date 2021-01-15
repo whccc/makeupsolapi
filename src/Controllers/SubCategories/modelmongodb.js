@@ -8,6 +8,11 @@ const SubCategories = new Schema({
     type: String,
     trim: true,
     required: true
+  },
+  strNameCategory: {
+    type: String,
+    trim: true,
+    required: true
   }
 }, {
   timestamps: true
