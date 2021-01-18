@@ -1,13 +1,19 @@
-const express = require('express')
-const router = express.Router()
-const { CreateCategories, GetCategories, GetCategoriesPagination, UpdateCategorie, DeleteCategorie } = require('./controller')
+const express = require("express");
+const router = express.Router();
+const {
+  CreateCategories,
+  GetCategories,
+  GetCategoriesPagination,
+  UpdateCategorie,
+  DeleteCategorie,
+} = require("./controller");
 
-router.route('/')
+router
+  .route("/")
   .post(CreateCategories)
   .get(GetCategories)
   .put(UpdateCategorie)
-  .delete(DeleteCategorie)
-router.route('/Pagination')
-  .post(GetCategoriesPagination)
+  .delete(DeleteCategorie);
+router.route("/Pagination").post(GetCategoriesPagination);
 
-module.exports = router
+module.exports = router;

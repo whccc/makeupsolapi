@@ -55,4 +55,46 @@ module.exports = {
       console.log(Error);
     }
   },
+  async GetCategoriesWithSubCategories(req, res) {
+    try {
+      const ArrayCategory = [];
+      const Data = await Model.MDGetCategoriesWithSubCategories();
+      //Data initial
+      //Add Category Header
+      Data.forEach((Category, Index) => {
+        if (Index == 0) {
+          ArrayCategory.push({
+            _idCategory: Category.strIdCategory._id,
+            strNameCategory: Category.strIdCategory.strName,
+            ArraySubCategory: [],
+          });
+        }
+        const ArrayCategoryFilter = ArrayCategory.filter(
+          (Element) => Element._idCategory == Category.strIdCategory._id
+        );
+        if (ArrayCategoryFilter.length == 0) {
+          ArrayCategory.push({
+            _idCategory: Category.strIdCategory._id,
+            strNameCategory: Category.strIdCategory.strName,
+            ArraySubCategory: [],
+          });
+        }
+      });
+      //Add SubCategories
+      Data.forEach((SubCategory) => {
+        ArrayCategory.forEach((Category) => {
+          if (Category._idCategory == SubCategory.strIdCategory._id) {
+            Category.ArraySubCategory.push({
+              _idSubCategory: SubCategory._id,
+              strNameSubCategory: SubCategory.strName,
+            });
+          }
+        });
+      });
+      res.json({ Success: true, Categories: ArrayCategory });
+    } catch (Error) {
+      console.log(Error);
+      res.json({ Success: false });
+    }
+  },
 };

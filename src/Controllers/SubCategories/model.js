@@ -33,4 +33,12 @@ module.exports = {
   async MDFindByIdUpdate({ _id, strName }) {
     await ModelDB.findByIdAndUpdate({ _id }, { strName });
   },
+  async MDGetCategoriesWithSubCategories() {
+    try {
+      const Data = await ModelDB.find({}).populate("strIdCategory");
+      return Data;
+    } catch (Error) {
+      throw Error;
+    }
+  },
 };
