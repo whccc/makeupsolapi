@@ -34,7 +34,6 @@ module.exports = {
       let objResponse = {};
       // Validate Date
       const objValidate = ValidateData(req.body);
-      console.log(objValidate);
       if (!objValidate.Success) {
         res.json(objValidate);
         return;
@@ -58,7 +57,7 @@ module.exports = {
   },
   async GetProductLimitTen(req, res) {
     try {
-      const Data = await MDProduct.MDFindPagination(req.body);
+      const Data = await MDProduct.MDFindProductsRandom(req.body);
       const Count = await MDProduct.MDCountProducts();
       res.json({ Products: Data, Count });
     } catch (Error) {
@@ -88,6 +87,36 @@ module.exports = {
     } catch (Error) {
       console.log(Error);
       res.json({ Success: false });
+    }
+  },
+  async GetProductsRandomLimitTen(req, res) {
+    //Method for send products random.it send 10 products
+    try {
+      let Range = { Min: 0, Max: 10 };
+      const Count = await MDProduct.MDCountProducts();
+      if (Count >= 10) {
+        let Min = Math.floor(Math.random() * (Count - 0)) + 0;
+        let Max = Math.floor(Math.random() * (Count - 0)) + 0;
+        while (Min - Max != 10) {
+          Min = Math.floor(Math.random() * (Count - 0)) + 0;
+          Max = Math.floor(Math.random() * (Count - 0)) + 0;
+        }
+        Range = { Min: Min > Max ? Max : Min, Max: Max < Min ? Min : Max };
+      }
+      const Data = await MDProduct.MDFindProductsRandom(Range);
+      res.json({ Success: true, ArrayProducts: Data });
+    } catch (Error) {
+      console.log(Error);
+      res.status(500).json({ Message: "Error internal server" });
+    }
+  },
+  async GetProductsBySubCategory(req, res) {
+    try {
+      const Data = await MDProduct.MDGetProductsBySubCategory(req.params);
+      res.json({ Success: true, Result: Data });
+    } catch (Error) {
+      console.log(Error);
+      res.status(500).json("Internal Error Service");
     }
   },
 };

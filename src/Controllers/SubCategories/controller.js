@@ -94,7 +94,7 @@ module.exports = {
       res.json({ Success: true, Categories: ArrayCategory });
     } catch (Error) {
       console.log(Error);
-      res.json({ Success: false });
+      res.status(500).json({ Message: "Error internal server" });
     }
   },
 };
