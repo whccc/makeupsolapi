@@ -16,6 +16,6 @@ ConnectionDb(db);
 // Rutas
 app.use("/api", indexRouter);
 // Escuchar servidor puerto
-app.listen(process.env.PORT | appConfig.port, () => {
+app.listen(process.env.PORT || appConfig.port, () => {
   console.log("Server escuchando por " + appConfig.port);
 });
