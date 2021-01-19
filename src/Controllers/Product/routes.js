@@ -7,6 +7,8 @@ const {
   GetProductsSearch,
   DeleteProduct,
   EditProduct,
+  GetProductsRandomLimitTen,
+  GetProductsBySubCategory,
 } = require("./controller");
 
 router
@@ -15,7 +17,10 @@ router
   .get(GetProducts)
   .delete(DeleteProduct)
   .put(EditProduct);
-router.route("/Limit").post(GetProductLimitTen);
+router.route("/Limit").post(GetProductLimitTen).get(GetProductsRandomLimitTen);
 router.route("/Filter").post(GetProductsSearch);
+router
+  .route("/GetBySubCategory/:strIdSubCategory")
+  .get(GetProductsBySubCategory);
 
 module.exports = router;
