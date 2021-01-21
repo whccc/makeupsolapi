@@ -73,4 +73,16 @@ module.exports = {
       throw Error;
     }
   },
+  async MDGetProductById({ _id }) {
+    try {
+      const Data = await MDProduct.findById(_id, {
+        __v: 0,
+        createdAt: 0,
+        updatedAt: 0,
+      });
+      return Data;
+    } catch (Error) {
+      throw Error;
+    }
+  },
 };

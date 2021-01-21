@@ -9,6 +9,7 @@ const {
   EditProduct,
   GetProductsRandomLimitTen,
   GetProductsBySubCategory,
+  GetProductById,
 } = require("./controller");
 
 router
@@ -22,5 +23,6 @@ router.route("/Filter").post(GetProductsSearch);
 router
   .route("/GetBySubCategory/:strIdSubCategory")
   .get(GetProductsBySubCategory);
+router.route("/ById/:_id").get(GetProductById);
 
 module.exports = router;
