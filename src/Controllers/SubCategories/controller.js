@@ -45,6 +45,7 @@ module.exports = {
       res.json(Helpers.objResponse(true, objRes));
     } catch (Error) {
       console.log(Error);
+      res.status(500).json("Error internal server");
     }
   },
   async PutSubCategory(req, res) {

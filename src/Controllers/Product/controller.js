@@ -119,4 +119,13 @@ module.exports = {
       res.status(500).json("Internal Error Service");
     }
   },
+  async GetProductById(req, res) {
+    try {
+      const Data = await MDProduct.MDGetProductById(req.params);
+      res.json({ Success: true, Result: Data });
+    } catch (Error) {
+      console.log(Error);
+      res.status(500).json("Error internal server");
+    }
+  },
 };
